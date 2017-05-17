@@ -10,24 +10,37 @@ namespace CollectIt
     {
         static void Main(string[] args)
         {
-            Queue<Employee> line = new Queue<Employee>();
-            // with a QQueue there is no add nor insert method, so use Enqueue
-            line.Enqueue(new Employee { Name = "Alex " });
-            line.Enqueue(new Employee { Name = "Dani" });
-            line.Enqueue(new Employee { Name = "Johnson" });
+            // ctrl rr while on "line" refactor to "queue"
+            Queue<Employee> queue = new Queue<Employee>();
+            
+            queue.Enqueue(new Employee { Name = "Alex " });
+            queue.Enqueue(new Employee { Name = "Dani" });
+            queue.Enqueue(new Employee { Name = "Johnson" });
 
-            // the whole point is you get things out as you put them in so no accessing by:
-            // line[0]... etc.
-
-            // Dequeue gives you the first item in teh line and deletes it from queue at teh same time
-            // line.Dequeue ...
-
-            // to get everything, use a loop
-            while(line.Count > 0)
+            while(queue.Count > 0)
             {
-                var employee = line.Dequeue();
+                var employee = queue.Dequeue();
                 Console.WriteLine(employee.Name); // will spit out all items in same order entered. FIFO
             }
+
+            Console.WriteLine("----");
+
+            // above is a queue, below is a stack
+
+            Stack<Employee> stack = new Stack<Employee>();
+
+            // hold down to select PhotoShop style
+            // stack.Push is the add method for stacks .Pop ro remove
+            stack.Push(new Employee { Name = "Alex " });
+            stack.Push(new Employee { Name = "Dani" });
+            stack.Push(new Employee { Name = "Johnson" });
+
+            while (stack.Count > 0)
+            {
+                var employee = stack.Pop(); // takes last added, i.e. opposite of queue LIFO
+                Console.WriteLine(employee.Name); 
+            }
+
         }
     }
 }
