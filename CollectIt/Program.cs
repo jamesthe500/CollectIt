@@ -10,37 +10,38 @@ namespace CollectIt
     {
         static void Main(string[] args)
         {
-            // ctrl rr while on "line" refactor to "queue"
-            Queue<Employee> queue = new Queue<Employee>();
-            
-            queue.Enqueue(new Employee { Name = "Alex " });
-            queue.Enqueue(new Employee { Name = "Dani" });
-            queue.Enqueue(new Employee { Name = "Johnson" });
+            // Hash set is a kind of collections that doesn't allow duplicates.
+            // useful for, say a list of employees and you don't want someone to be added twice.
 
-            while(queue.Count > 0)
+            HashSet<int> set = new HashSet<int>();
+            set.Add(1);
+            set.Add(2);
+            // it just won't add the second 2 when it sees that it already has that value.
+            // the add method will return false to indicate the item wasn't added. True with it is added.
+            set.Add(2);
+
+            // cannot index into, never know the order of these.
+
+            foreach (var item in set)
             {
-                var employee = queue.Dequeue();
-                Console.WriteLine(employee.Name); // will spit out all items in same order entered. FIFO
+                Console.WriteLine(item);
             }
 
-            Console.WriteLine("----");
+            HashSet<Employee> setEmployees = new HashSet<Employee>();
+            setEmployees.Add(new Employee { Name = "Scott" });
+            // HashSet will not know that these are the same. Tehy are different objects. 
+            // There Are ways to make this class. 
+            setEmployees.Add(new Employee { Name = "Scott" });
 
-            // above is a queue, below is a stack
+            var employee = new Employee { Name = "Joe" };
+            setEmployees.Add(employee);
+            // here we only get one be
+            setEmployees.Add(employee);
 
-            Stack<Employee> stack = new Stack<Employee>();
-
-            // hold down to select PhotoShop style
-            // stack.Push is the add method for stacks .Pop ro remove
-            stack.Push(new Employee { Name = "Alex " });
-            stack.Push(new Employee { Name = "Dani" });
-            stack.Push(new Employee { Name = "Johnson" });
-
-            while (stack.Count > 0)
+            foreach (var item in setEmployees)
             {
-                var employee = stack.Pop(); // takes last added, i.e. opposite of queue LIFO
-                Console.WriteLine(employee.Name); 
+                Console.WriteLine(item.Name);
             }
-
         }
     }
 }
