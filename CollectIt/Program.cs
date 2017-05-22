@@ -10,42 +10,25 @@ namespace CollectIt
     {
         static void Main(string[] args)
         {
-            // Dictionary data structure has a key and value. Makes finding data faster.
-            //Dictionary<string, Employee> employeesByName = new Dictionary<string, Employee>();
-            // Scott likes the var kw in these situations for readability.
-            /*
-            var employeesByName = new Dictionary<string, Employee>();
+            // The dictionary we made last mod isn't good at sorting.
 
-            // key values must be unique. you'll get an error if you try to add another with teh same key.
-            employeesByName.Add("Scott", new Employee { Name = "Scott Bromander" });
-            employeesByName.Add("Joul", new Employee { Name = "Joul Webb" });
-            employeesByName.Add("Harry", new Employee { Name = "Harry Flandersen" });
+            // SortedDictionary is an option. It automatically stores in ascending order Wors well for dates, strings ints etc.
+            // there are ways to tell it how to sort, not getting into it here.
+            var employeesByName = new SortedDictionary<string, List<Employee>>();
 
-            var scott = employeesByName["Scott"];
+            // two lists for HR, one with two other with three
+            employeesByName.Add("Sales", new List<Employee> { new Employee(), new Employee(), new Employee() });
+            employeesByName.Add("Engineering", new List<Employee> { new Employee(), new Employee() });
 
             foreach (var item in employeesByName)
             {
-                Console.WriteLine("{0}:{1}", item.Key, item.Value.Name);
+                Console.WriteLine("the count of employees in {0} is {1}", 
+                    item.Key, item.Value.Count 
+                    );
+                //Console.WriteLine("hello");
             }
-            */
 
-            // here, making it so that each item is actually a list of its own. This solves teh problem of what happens wehn there are two "Scotts".
-            var employeesByName = new Dictionary<string, List<Employee>>();
 
-            employeesByName.Add("Scott", new List<Employee>() { new Employee { Name = "Scoot Allen" } });
-
-            // ... other employees are added.
-
-            // need to add another Scott, so instead of adding new, call up the existing key scott, and add to its List
-            employeesByName["Scott"].Add(new Employee { Name = "Scott Bromander" });
-
-            foreach (var item in employeesByName)
-            {
-                foreach (var employee in item.Value)
-                {
-                    Console.WriteLine(employee.Name);
-                }
-            }
         }
     } 
 }
