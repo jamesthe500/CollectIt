@@ -10,37 +10,20 @@ namespace CollectIt
     {
         static void Main(string[] args)
         {
-            // Hash set is a kind of collections that doesn't allow duplicates.
-            // useful for, say a list of employees and you don't want someone to be added twice.
+            // Dictionary data structure has a key and value. Makes finding data faster.
+            //Dictionary<string, Employee> employeesByName = new Dictionary<string, Employee>();
+            // Scott likes the var kw in these situations for readability.
+            var employeesByName = new Dictionary<string, Employee>();
 
-            HashSet<int> set = new HashSet<int>();
-            set.Add(1);
-            set.Add(2);
-            // it just won't add the second 2 when it sees that it already has that value.
-            // the add method will return false to indicate the item wasn't added. True with it is added.
-            set.Add(2);
+            employeesByName.Add("Scott", new Employee { Name = "Scott Bromander" });
+            employeesByName.Add("Joul", new Employee { Name = "Joul Webb" });
+            employeesByName.Add("Harry", new Employee { Name = "Harry Flandersen" });
 
-            // cannot index into, never know the order of these.
+            var scott = employeesByName["Scott"];
 
-            foreach (var item in set)
+            foreach (var item in employeesByName)
             {
-                Console.WriteLine(item);
-            }
-
-            HashSet<Employee> setEmployees = new HashSet<Employee>();
-            setEmployees.Add(new Employee { Name = "Scott" });
-            // HashSet will not know that these are the same. Tehy are different objects. 
-            // There Are ways to make this class. 
-            setEmployees.Add(new Employee { Name = "Scott" });
-
-            var employee = new Employee { Name = "Joe" };
-            setEmployees.Add(employee);
-            // here we only get one be
-            setEmployees.Add(employee);
-
-            foreach (var item in setEmployees)
-            {
-                Console.WriteLine(item.Name);
+                Console.WriteLine("{0}:{1}", item.Key, item.Value.Name);
             }
         }
     }
