@@ -6,10 +6,17 @@ using System.Threading.Tasks;
 
 namespace CollectIt
 {
-    // This class is a tool for HashSets to compare emploees. Tells what to compare.
-    // Without it, the HashSets are comparing the entire object not knowing that it's the Name we are looking at.
-    public class EmployeeComparer : IEqualityComparer<Employee>
+    // Added iComparer inheritance, since we need to be able to compare in order to sort.
+    public class EmployeeComparer : IEqualityComparer<Employee>, 
+                                    IComparer<Employee>
     {
+        
+        public int Compare(Employee x, Employee y)
+        {
+            // returns an int -1, 0, or 1. 1st is less than, same, 1st is greater than.
+            return String.Compare(x.Name, y.Name);
+        }
+
         public bool Equals(Employee x, Employee y)
         {
             return String.Equals(x.Name, y.Name);
@@ -29,9 +36,9 @@ namespace CollectIt
 
             // made as a Dictionary at first, changed to SortedDictionary so it will be always sorted.
             // Changed from list to HashSet so as to prevent duplicates.
-            var departments = new SortedDictionary<string, HashSet<Employee>>();
+            var departments = new SortedDictionary<string, SortedSet<Employee>>();
 
-            departments.Add("Sales", new HashSet<Employee>(new EmployeeComparer()));
+            departments.Add("Sales", new SortedSet<Employee>(new EmployeeComparer()));
             departments["Sales"].Add(new Employee { Name = "Florence" });
             departments["Sales"].Add(new Employee { Name = "Mr. Roboto" });
             departments["Sales"].Add(new Employee { Name = "Gerry" });
@@ -41,7 +48,7 @@ namespace CollectIt
             // C# doesn't know how to know that these are the same
             departments["Sales"].Add(new Employee { Name = "Mandi" });
 
-            departments.Add("Engineering", new HashSet<Employee>(new EmployeeComparer()));
+            departments.Add("Engineering", new SortedSet<Employee>(new EmployeeComparer()));
             departments["Engineering"].Add(new Employee { Name = "Scott" });
             departments["Engineering"].Add(new Employee { Name = "Joe" });
             departments["Engineering"].Add(new Employee { Name = "Dianne" });
