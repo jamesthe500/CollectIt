@@ -28,30 +28,46 @@ namespace CollectIt
         }
     }
 
+    // This class cleans up the code, by bringing some of the mess up here.
+    public class DepartmentCollection : SortedDictionary<string, SortedSet<Employee>>
+    {
+        public DepartmentCollection Add(string departmentName, Employee employee)
+        {
+            // check if the department already exists
+            if (!ContainsKey(departmentName))
+            {
+                // if not, add it annew.
+                Add(departmentName, new SortedSet<Employee>(new EmployeeComparer()));
+
+            }
+            // here youre guaranteed that the departmetn is a key inside this collection.
+            // just need to ref that sorted set and add that employee.
+            this[departmentName].Add(employee);
+            return this;
+        }
+    }
+
     class Program
     {
         static void Main(string[] args)
         {
-            // Now to comapre employees
+            var departments = new DepartmentCollection();
 
-            // made as a Dictionary at first, changed to SortedDictionary so it will be always sorted.
-            // Changed from list to HashSet so as to prevent duplicates.
-            var departments = new SortedDictionary<string, SortedSet<Employee>>();
+            // with teh new class, no longer need this department adding line
+            //departments.Add("Sales", new SortedSet<Employee>(new EmployeeComparer()));
+            // and can use teh new way the method works. less clunky
+            // just, departments.Add instead of referenceing an established department. 
+            // And it adds it only if needed
+            departments.Add("Sales", new Employee { Name = "Florence" })
+                       .Add("Sales", new Employee { Name = "Mr. Roboto" })
+                       .Add("Sales", new Employee { Name = "Gerry" })
+                       .Add("Sales", new Employee { Name = "Mandi" })
+                       .Add("Sales", new Employee { Name = "Mandi" });
 
-            departments.Add("Sales", new SortedSet<Employee>(new EmployeeComparer()));
-            departments["Sales"].Add(new Employee { Name = "Florence" });
-            departments["Sales"].Add(new Employee { Name = "Mr. Roboto" });
-            departments["Sales"].Add(new Employee { Name = "Gerry" });
-            departments["Sales"].Add(new Employee { Name = "Mandi" });
-            // we don't want there to be duplicates. 
-            // Strainght-up HashSet won't work since these are objects of employee. 
-            // C# doesn't know how to know that these are the same
-            departments["Sales"].Add(new Employee { Name = "Mandi" });
-
-            departments.Add("Engineering", new SortedSet<Employee>(new EmployeeComparer()));
-            departments["Engineering"].Add(new Employee { Name = "Scott" });
-            departments["Engineering"].Add(new Employee { Name = "Joe" });
-            departments["Engineering"].Add(new Employee { Name = "Dianne" });
+            //departments.Add("Engineering", new SortedSet<Employee>(new EmployeeComparer()));
+            departments.Add("Engineering", new Employee { Name = "Scott" })
+                       .Add("Engineering", new Employee { Name = "Joe" })
+                       .Add("Engineering", new Employee { Name = "Dianne" });
 
             foreach (var department in departments)
             {
